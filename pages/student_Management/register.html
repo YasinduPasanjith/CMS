@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Register an account on UOC Voice to submit and track your campus complaints.">
+  <title>Student Registration — UOC CMS</title>
+
+  <!-- Tabler Icons CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+  <!-- Shared Style Sheets -->
+  <link rel="stylesheet" href="../../css/register.css">
+</head>
+
+<body>
+
+  <!-- Decorative blur blobs in the background -->
+  <div class="blur-blob blob-1"></div>
+  <div class="blur-blob blob-2"></div>
+
+  <div class="register-card">
+    <a href="../../index.php" class="back-home">
+      <i class="ti ti-arrow-left"></i> Back to Homepage
+    </a>
+
+    <div class="logo-header">
+      <div class="logo-icon">U</div>
+      <span class="logo-text">UOC <span class="logo-sub">Voice</span></span>
+    </div>
+
+    <h2>Student Registration</h2>
+    <p class="subtitle">Create a secure UOC Voice profile to submit and track complaints.</p>
+
+    <form action="register.php" method="POST" onsubmit="return validateForm()">
+      <div class="input-group">
+        <input type="text" name="full_name" id="full_name" placeholder="Full Name" required>
+        <span class="input-icon"><i class="ti ti-user"></i></span>
+      </div>
+
+      <div class="input-group">
+        <input type="email" name="email" id="email" placeholder="Email Address (e.g. name@stu.cmb.ac.lk)" required>
+        <span class="input-icon"><i class="ti ti-mail"></i></span>
+      </div>
+
+      <div class="input-group">
+        <input type="text" name="reg_no" id="reg_no" placeholder="Registration Number" required>
+        <span class="input-icon"><i class="ti ti-id"></i></span>
+      </div>
+
+      <div class="input-group">
+        <input type="text" name="faculty" id="faculty" placeholder="Faculty / Institute" required>
+        <span class="input-icon"><i class="ti ti-school"></i></span>
+      </div>
+
+      <div class="input-group">
+        <input type="password" name="password" id="password" placeholder="Password (Min. 6 characters)" required>
+        <span class="input-icon"><i class="ti ti-lock"></i></span>
+      </div>
+
+      <button type="submit">Create Account</button>
+    </form>
+
+    <p class="signin-prompt">
+      Already registered? <a href="../index.php" class="signin-link">Sign In Here</a>
+    </p>
+  </div>
+
+  <script src="../js/validation.js"></script>
+</body>
+
+</html>
