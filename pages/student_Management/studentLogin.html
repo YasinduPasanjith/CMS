@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Student login for UOC Voice complaint management portal.">
+  <title>Student Login — UOC CMS</title>
+
+  <!-- Tabler Icons CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <link rel="stylesheet" href="../../css/studentLogin.css">
+</head>
+
+<body>
+
+  <div class="blur-blob blob-1"></div>
+  <div class="blur-blob blob-2"></div>
+
+  <div class="register-card">
+    <a href="../../index.php" class="back-home">
+      <i class="ti ti-arrow-left"></i> Back to Homepage
+    </a>
+
+    <div class="logo-header">
+      <div class="logo-icon">U</div>
+      <span class="logo-text">UOC <span class="logo-sub">Voice</span></span>
+    </div>
+
+    <h2>Student Login</h2>
+    <p class="subtitle">Sign in to submit complaints, track your requests, and view support updates.</p>
+
+    <form action="studentLogin.php" method="POST" onsubmit="return validateLogin()">
+      <div class="input-group">
+        <input type="email" name="email" id="email" placeholder="Email Address" required>
+        <span class="input-icon"><i class="ti ti-mail"></i></span>
+      </div>
+
+      <div class="input-group">
+        <input type="password" name="password" id="password" placeholder="Password" required>
+        <span class="input-icon"><i class="ti ti-lock"></i></span>
+      </div>
+
+      <button type="submit">Sign In</button>
+    </form>
+
+    <p class="signin-prompt">
+      New here? <a href="register.html" class="signin-link">Create an account</a>
+    </p>
+  </div>
+
+  <script src="../../js/validation.js"></script>
+</body>
+
+</html>
