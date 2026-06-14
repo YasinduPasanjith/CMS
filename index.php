@@ -38,7 +38,7 @@
 
       <!-- Desktop Header Actions -->
       <div class="header-actions">
-        <button class="btn btn-secondary" onclick="openLogin()">Sign In</button>
+        <button class="btn btn-secondary" onclick="window.location.href='pages/student_Management/studentLogin.html'">Sign In</button>
         <button class="btn btn-primary" onclick="window.location.href='pages/student_Management/register.html'">Register</button>
       </div>
 
@@ -58,7 +58,7 @@
       <a href="javascript:void(0)" onclick="scrollToSection('faqs')" class="nav-link">FAQs</a>
     </nav>
     <div class="header-actions">
-      <button class="btn btn-secondary" onclick="openLogin()">Sign In</button>
+      <button class="btn btn-secondary" onclick="window.location.href='pages/student_Management/studentLogin.html'">Sign In</button>
       <button class="btn btn-primary" onclick="window.location.href='pages/student_Management/register.html'">Register</button>
     </div>
   </div>
