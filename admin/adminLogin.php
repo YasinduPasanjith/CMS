@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 echo "<script>
                         alert('Login Successful! Welcome, " . addslashes($admin['full_name']) . ".');
-                        window.location='view_admins.php';
+                        window.location='adminDashboard.php';
                       </script>";
                 exit;
             } else {
