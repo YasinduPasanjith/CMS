@@ -10,6 +10,39 @@ if (empty($_SESSION['admin_id'])) {
 
 $adminName = htmlspecialchars($_SESSION['admin_name']);
 
+// ── DELETE RESOLUTION RECORD ──
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_resolve_id'])) {
+    $delete_id = (int)$_POST['delete_resolve_id'];
+    $delete_com_id = (int)$_POST['delete_com_id'];
+
+    if ($delete_id > 0 && $delete_com_id > 0) {
+        $conn->begin_transaction();
+        try {
+            // Remove the resolution record
+            $del_stmt = $conn->prepare("DELETE FROM resolve_complaints WHERE resolve_com_id = ?");
+            if (!$del_stmt) throw new Exception("Failed to prepare delete statement.");
+            $del_stmt->bind_param("i", $delete_id);
+            if (!$del_stmt->execute()) throw new Exception("Failed to delete resolution record.");
+            $del_stmt->close();
+
+            // Reset complaint status back to Pending
+            $rst_stmt = $conn->prepare("UPDATE complaint_status SET status = 'Pending' WHERE com_id = ?");
+            if (!$rst_stmt) throw new Exception("Failed to prepare status reset statement.");
+            $rst_stmt->bind_param("i", $delete_com_id);
+            if (!$rst_stmt->execute()) throw new Exception("Failed to reset complaint status.");
+            $rst_stmt->close();
+
+            $conn->commit();
+            echo "<script>alert('Resolution record deleted and complaint status reset to Pending.'); window.location='resolveComplaintHistory.php';</script>";
+            exit;
+        } catch (Exception $e) {
+            $conn->rollback();
+            echo "<script>alert('Error: " . addslashes($e->getMessage()) . "'); window.location='resolveComplaintHistory.php';</script>";
+            exit;
+        }
+    }
+}
+
 // Process Search & Filters
 $where_clauses = [];
 $params = [];
@@ -401,6 +434,127 @@ if ($stmt) {
       font-size: 1rem;
     }
 
+    .btn-delete {
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-delete:hover {
+      background: rgba(239, 68, 68, 0.18);
+      border-color: rgba(239, 68, 68, 0.55);
+      color: #fca5a5;
+      transform: scale(1.03);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+    }
+
+    /* Confirm Modal Overlay */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(6px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #12091f;
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      border-radius: 20px;
+      padding: 36px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      animation: modalIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.92) translateY(16px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-icon {
+      font-size: 2.5rem;
+      color: #f87171;
+      margin-bottom: 16px;
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-bright);
+      margin-bottom: 8px;
+    }
+
+    .modal-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .modal-cancel {
+      padding: 10px 24px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .modal-cancel:hover {
+      background: rgba(255,255,255,0.1);
+      color: var(--text-bright);
+    }
+
+    .modal-confirm {
+      padding: 10px 24px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, #dc2626, #ef4444);
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .modal-confirm:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(220, 38, 38, 0.35);
+    }
+
     /* Animated background blobs */
     .blur-blob {
       position: absolute;
@@ -485,6 +639,7 @@ if ($stmt) {
               <th>Complaint Details</th>
               <th>Resolution Information</th>
               <th style="width: 150px;">Resolved Date</th>
+              <th style="width: 90px;">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -530,8 +685,16 @@ if ($stmt) {
               </td>
               <td>
                 <span style="font-size: 0.9rem; color: var(--text-muted);">
-                  <?php echo date('M d, Y H:i', strtotime($row['resolved_date'])); ?>
+                  <?php echo $row['resolved_date'] ? date('M d, Y H:i', strtotime($row['resolved_date'])) : 'N/A'; ?>
                 </span>
+              </td>
+              <td>
+                <button
+                  class="btn-delete"
+                  onclick="openDeleteModal(<?php echo $row['resolve_com_id']; ?>, <?php echo $row['com_id']; ?>)"
+                >
+                  <i class="ti ti-trash"></i> Delete
+                </button>
               </td>
             </tr>
             <?php 
@@ -539,7 +702,7 @@ if ($stmt) {
             } else {
             ?>
             <tr>
-              <td colspan="6">
+              <td colspan="7">
                 <div class="empty-state">
                   <i class="ti ti-history-toggle"></i>
                   <p>No resolution history logs found.</p>
@@ -553,6 +716,50 @@ if ($stmt) {
     </section>
 
   </div>
+
+  <!-- Confirmation Modal -->
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal-box">
+      <div class="modal-icon"><i class="ti ti-alert-triangle"></i></div>
+      <div class="modal-title">Delete Resolution Record?</div>
+      <div class="modal-desc">
+        This will permanently remove the resolution log and reset the complaint status back to <strong>Pending</strong>.
+        This action cannot be undone.
+      </div>
+      <form method="POST" action="resolveComplaintHistory.php" id="deleteForm">
+        <input type="hidden" name="delete_resolve_id" id="modal_resolve_id">
+        <input type="hidden" name="delete_com_id" id="modal_com_id">
+        <div class="modal-actions">
+          <button type="button" class="modal-cancel" onclick="closeDeleteModal()">Cancel</button>
+          <button type="submit" class="modal-confirm">
+            <i class="ti ti-trash"></i> Yes, Delete
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function openDeleteModal(resolveId, comId) {
+      document.getElementById('modal_resolve_id').value = resolveId;
+      document.getElementById('modal_com_id').value = comId;
+      document.getElementById('deleteModal').classList.add('active');
+    }
+
+    function closeDeleteModal() {
+      document.getElementById('deleteModal').classList.remove('active');
+    }
+
+    // Close modal when clicking the backdrop
+    document.getElementById('deleteModal').addEventListener('click', function(e) {
+      if (e.target === this) closeDeleteModal();
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeDeleteModal();
+    });
+  </script>
 
 </body>
 </html>
