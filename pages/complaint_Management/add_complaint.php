@@ -12,47 +12,66 @@ if (!isset($_SESSION['student_id'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Submit a Complaint</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 50px; background-color: #f4f4f9; }
-        .form-container { max-width: 500px; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        .btn { background-color: #28a745; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; }
-        .btn:hover { background-color: #218838; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit a Complaint — UOC CMS</title>
+    
+    <!-- Tabler Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    
+    <!-- Core & Page Stylesheets -->
+    <link rel="stylesheet" href="../../css/index.css">
+    <link rel="stylesheet" href="../../css/add_complaint.css">
 </head>
 <body>
 
+<!-- Animated background blobs -->
+<div class="blur-blob blob-1"></div>
+<div class="blur-blob blob-2"></div>
+
+<!-- Back Button to student dashboard -->
+<a href="../student_Management/studentDashboard.php" class="back-dashboard">
+    <i class="ti ti-arrow-left"></i> Back to Dashboard
+</a>
+
 <div class="form-container">
     <h2>Welcome, <?php echo htmlspecialchars($_SESSION['student_name']); ?></h2>
-    <p>Please submit your complaint below.</p>
+    <p>Please submit your complaint details below.</p>
     <hr>
     
     <form action="add_complaint_process.php" method="POST">
         <div class="form-group">
-            <label for="subject">Complaint Subject:</label>
-            <input type="text" id="subject" name="complaint_subject" required maxlength="45">
+            <label for="subject">Complaint Subject</label>
+            <div class="input-wrapper">
+                <input type="text" id="subject" name="complaint_subject" placeholder="Enter a brief subject for your complaint" required maxlength="45">
+                <i class="ti ti-edit input-icon"></i>
+            </div>
         </div>
 
         <div class="form-group">
-            <label for="category">Category:</label>
-            <select id="category" name="category" required>
-                <option value="">-- Select Category --</option>
-                <option value="Academic">Academic</option>
-                <option value="Facilities">Facilities</option>
-                <option value="Hostel">Hostel</option>
-                <option value="Other">Other</option>
-            </select>
+            <label for="category">Category</label>
+            <div class="input-wrapper select-wrapper">
+                <select id="category" name="category" required>
+                    <option value="" disabled selected>Select category...</option>
+                    <option value="Academic">Academic</option>
+                    <option value="Facilities">Facilities</option>
+                    <option value="Hostel">Hostel</option>
+                    <option value="Other">Other</option>
+                </select>
+                <i class="ti ti-category input-icon"></i>
+            </div>
         </div>
 
         <div class="form-group">
-            <label for="description">Description:</label>
-            <textarea id="description" name="complaint_description" rows="5" required maxlength="255"></textarea>
+            <label for="description">Detailed Description</label>
+            <div class="input-wrapper">
+                <textarea id="description" name="complaint_description" rows="5" placeholder="Provide a detailed explanation of the issue..." required maxlength="255"></textarea>
+                <i class="ti ti-file-description input-icon"></i>
+            </div>
         </div>
 
-        <button type="submit" class="btn">Submit Complaint</button>
+        <button type="submit" class="btn-submit">
+            <i class="ti ti-send"></i> Submit Complaint
+        </button>
     </form>
 </div>
 

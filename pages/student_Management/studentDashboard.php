@@ -176,7 +176,7 @@ $studentFaculty = htmlspecialchars($_SESSION['student_faculty']);
       <div class="action-card">
         <h3>Submit a Complaint</h3>
         <p>Report academic, facility or administration issues directly through the UOC Voice portal.</p>
-        <a href="../../pages/student_Management/register.html">Submit Now</a>
+        <a href="../complaint_Management/add_complaint.php">Submit Now</a>
       </div>
       <div class="action-card">
         <h3>Track Complaint Status</h3>

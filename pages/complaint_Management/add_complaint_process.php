@@ -67,7 +67,7 @@ try {
 
     $conn->commit();
 
-    echo "<script>alert('Complaint submitted successfully.'); window.location='studentDashboard.php';</script>";
+    echo "<script>alert('Complaint submitted successfully.'); window.location='./pages/student_Management/studentDashboard.php';</script>";
     exit;
 
 } catch (Exception $e) {
