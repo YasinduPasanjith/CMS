@@ -482,6 +482,30 @@ table.admin-table tr:hover td {
   box-shadow: 0 4px 12px rgba(102, 0, 151, 0.3);
 }
 
+.btn-reply {
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  color: #d8b4fe;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.btn-reply:hover {
+  background: rgba(168, 85, 247, 0.2);
+  border-color: rgba(168, 85, 247, 0.5);
+  color: var(--text-bright);
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.2);
+}
+
 /* Empty State */
 .empty-state {
   text-align: center;

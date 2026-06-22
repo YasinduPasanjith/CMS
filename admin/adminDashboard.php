@@ -269,6 +269,9 @@ if ($stmt) {
                   <button type="submit" class="btn-update">
                     <i class="ti ti-edit"></i> Update
                   </button>
+                  <a href="../pages/resolve_Complaint_Management/resolveComplaint.php?com_id=<?php echo $row['com_id']; ?>" class="btn-reply">
+                    <i class="ti ti-arrow-back-up"></i> Reply
+                  </a>
                 </form>
               </td>
             </tr>
