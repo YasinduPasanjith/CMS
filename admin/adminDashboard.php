@@ -128,6 +128,9 @@ if ($stmt) {
         <button class="btn btn-secondary btn-header" onclick="window.location.href='view_admins.php'">
           <i class="ti ti-users"></i> Admin Roster
         </button>
+        <button class="btn btn-secondary btn-header" onclick="window.location.href='../pages/resolve_Complaint_Management/resolveComplaintHistory.php'">
+          <i class="ti ti-history"></i> Resolution History
+        </button>
         <button class="btn btn-primary btn-header" onclick="window.location.href='adminLogout.php'">
           <i class="ti ti-logout"></i> Logout
         </button>
