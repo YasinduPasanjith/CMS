@@ -253,7 +253,7 @@ if ($stmt) {
                 </div>
               </td>
               <td>
-                <form action="update_complaint_status.php" method="POST" class="status-update-form">
+                <form action="../pages/complaint_Management/update_complaint_status.php" method="POST" class="status-update-form">
                   <input type="hidden" name="com_id" value="<?php echo $row['com_id']; ?>">
                   <div class="status-select-wrapper">
                     <select name="status" class="<?php 

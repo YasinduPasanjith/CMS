@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../db.php';
+include '../../db.php';
 
 // Check if admin is authenticated
 if (empty($_SESSION['admin_id'])) {
@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Commit transaction
         $conn->commit();
-        echo "<script>alert('Complaint status updated successfully.'); window.location='adminDashboard.php';</script>";
+        echo "<script>alert('Complaint status updated successfully.'); window.location='../../admin/adminDashboard.php';</script>";
         exit;
 
     } catch (Exception $e) {
