@@ -88,8 +88,8 @@ $result = $conn->query("SELECT * FROM admins ORDER BY admin_id DESC");
   <div class="blur-blob blob-2" style="bottom: 10%; right: 15%;"></div>
 
   <div class="roster-card">
-    <a href="index.php" class="back-home">
-      <i class="ti ti-arrow-left"></i> Back to Add Admin
+    <a href="adminDashboard.php" class="back-home">
+      <i class="ti ti-arrow-left"></i> Back to Dashboard
     </a>
 
     <h2 style="margin-top: 0; text-align: left; margin-bottom: 10px; font-family: var(--font-display); font-size: 2.25rem;">Admin List</h2>
