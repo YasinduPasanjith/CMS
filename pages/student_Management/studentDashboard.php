@@ -6,10 +6,37 @@ if (empty($_SESSION['student_id'])) {
     exit;
 }
 
-$studentName = htmlspecialchars($_SESSION['student_name']);
-$studentEmail = htmlspecialchars($_SESSION['student_email']);
-$studentRegNo = htmlspecialchars($_SESSION['student_reg_no']);
+$studentName    = htmlspecialchars($_SESSION['student_name']);
+$studentEmail   = htmlspecialchars($_SESSION['student_email']);
+$studentRegNo   = htmlspecialchars($_SESSION['student_reg_no']);
 $studentFaculty = htmlspecialchars($_SESSION['student_faculty']);
+$studentId      = (int) $_SESSION['student_id'];
+
+// ── Fetch complaint counts for quick stats ──
+include '../../db.php';
+
+$statTotal    = 0;
+$statResolved = 0;
+$statPending  = 0;
+
+$stat_sql = "SELECT cs.status, COUNT(*) AS cnt
+             FROM complaints c
+             LEFT JOIN complaint_status cs ON c.com_id = cs.com_id
+             WHERE c.std_id = ?
+             GROUP BY cs.status";
+$stat_stmt = $conn->prepare($stat_sql);
+if ($stat_stmt) {
+    $stat_stmt->bind_param("i", $studentId);
+    $stat_stmt->execute();
+    $stat_res = $stat_stmt->get_result();
+    while ($sr = $stat_res->fetch_assoc()) {
+        $statTotal += $sr['cnt'];
+        if ($sr['status'] === 'Resolved') $statResolved = $sr['cnt'];
+        if ($sr['status'] === 'Pending')  $statPending  = $sr['cnt'];
+    }
+    $stat_stmt->close();
+}
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +57,7 @@ $studentFaculty = htmlspecialchars($_SESSION['student_faculty']);
       color: var(--text-main);
     }
     .dashboard-card {
-      max-width: 800px;
+      max-width: 1000px;
       margin: 0 auto;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border-color);
@@ -106,6 +133,55 @@ $studentFaculty = htmlspecialchars($_SESSION['student_faculty']);
       margin-bottom: 14px;
       color: var(--text-bright);
     }
+    /* ── Quick Stats Strip ── */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .stat-chip {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: var(--transition);
+    }
+    .stat-chip:hover {
+      border-color: var(--border-color-hover);
+      background: rgba(255,255,255,0.05);
+    }
+    .stat-chip-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .icon-total    { background: rgba(102,0,151,0.15); color: #c982ff; border: 1px solid rgba(102,0,151,0.25); }
+    .icon-resolved { background: rgba(16,185,129,0.12); color: #34d399; border: 1px solid rgba(16,185,129,0.25); }
+    .icon-pending  { background: rgba(245,158,11,0.12); color: #fbbf24; border: 1px solid rgba(245,158,11,0.25); }
+    .stat-chip-body .num {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text-bright);
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+    .stat-chip-body .lbl {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-weight: 500;
+    }
     .action-panel {
       display: grid;
       gap: 18px;
@@ -143,6 +219,9 @@ $studentFaculty = htmlspecialchars($_SESSION['student_faculty']);
       .profile-grid {
         grid-template-columns: 1fr;
       }
+      .stats-strip {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -171,17 +250,47 @@ $studentFaculty = htmlspecialchars($_SESSION['student_faculty']);
       </div>
     </div>
 
+    <div class="section-title">Your Complaint Overview</div>
+    <div class="stats-strip" id="statsStrip">
+      <div class="stat-chip">
+        <div class="stat-chip-icon icon-total"><i class="ti ti-file-description"></i></div>
+        <div class="stat-chip-body">
+          <div class="num"><?php echo $statTotal; ?></div>
+          <div class="lbl">Total Submitted</div>
+        </div>
+      </div>
+      <div class="stat-chip">
+        <div class="stat-chip-icon icon-resolved"><i class="ti ti-circle-check"></i></div>
+        <div class="stat-chip-body">
+          <div class="num"><?php echo $statResolved; ?></div>
+          <div class="lbl">Resolved</div>
+        </div>
+      </div>
+      <div class="stat-chip">
+        <div class="stat-chip-icon icon-pending"><i class="ti ti-clock"></i></div>
+        <div class="stat-chip-body">
+          <div class="num"><?php echo $statPending; ?></div>
+          <div class="lbl">Pending</div>
+        </div>
+      </div>
+    </div>
+
     <div class="section-title">What would you like to do?</div>
     <div class="action-panel">
       <div class="action-card">
         <h3>Submit a Complaint</h3>
         <p>Report academic, facility or administration issues directly through the UOC Voice portal.</p>
-        <a href="../complaint_Management/add_complaint.php">Submit Now</a>
+        <a href="../complaint_Management/add_complaint.php">Submit Now &rarr;</a>
+      </div>
+      <div class="action-card">
+        <h3>Complaint History</h3>
+        <p>View all your past and current complaints, track their status, and read admin responses.</p>
+        <a href="../complaint_Management/complaint_History.php">View History &rarr;</a>
       </div>
       <div class="action-card">
         <h3>Track Complaint Status</h3>
-        <p>Track your active issues, view updates, and follow resolution progress in one place.</p>
-        <a href="../../index.php">Track Status</a>
+        <p>Follow the real-time progress of your active issues through the UOC portal.</p>
+        <a href="../../index.php">Track Status &rarr;</a>
       </div>
     </div>
   </div>
