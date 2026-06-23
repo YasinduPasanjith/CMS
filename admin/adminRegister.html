@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Admin — UOC CMS</title>
+
+  <!-- Tabler Icons CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+  <!-- Shared Style Sheets -->
+  <link rel="stylesheet" href="../css/adminRegister.css">
+</head>
+
+<body>
+
+  <!-- Decorative blur blobs in the background -->
+  <div class="blur-blob blob-1"></div>
+  <div class="blur-blob blob-2"></div>
+
+  <div class="admin-card">
+    <a href="../index.php" class="back-home">
+      <i class="ti ti-arrow-left"></i> Back to Homepage
+    </a>
+
+    <div class="logo-header">
+      <div class="logo-icon">U</div>
+      <span class="logo-text">UOC <span class="logo-sub">Voice</span></span>
+    </div>
+
+    <h2>Add New Admin</h2>
+    <p class="subtitle">Register authorized system coordinators and officers.</p>
+
+    <form action="adminRegister.php" method="POST" onsubmit="return validateAdmin()">
+      <input type="text" name="full_name" id="full_name" placeholder="Full Name" required>
+      <input type="email" name="email" id="email" placeholder="Email Address" required>
+      <input type="text" name="username" id="username" placeholder="Username" required>
+      <input type="password" name="password" id="password" placeholder="Password (Min. 6 characters)" required>
+
+      <button type="submit">Create Admin Account</button>
+    </form>
+
+    <p class="signin-prompt">
+      Need to view existing administrators? <a href="view_admins.php" class="accent-link">View Admin Roster</a>
+    </p>
+  </div>
+
+  <script src="../js/admin_validation.js"></script>
+</body>
+
+</html>
