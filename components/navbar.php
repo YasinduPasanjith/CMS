@@ -1,3 +1,12 @@
+<?php
+// Start session to check if student is logged in
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Check if student is logged in
+$isStudentLoggedIn = isset($_SESSION['student_id']) && !empty($_SESSION['student_id']);
+?>
 <!-- HEADER -->
 <header class="header">
   <div class="container header-container">
@@ -48,23 +57,33 @@
 
     <!-- Buttons -->
     <div class="header-actions">
+      <?php if (!$isStudentLoggedIn): ?>
+        <!-- Show Login and Register buttons when NOT logged in -->
+        <button
+          class="btn btn-secondary"
+          onclick="window.location.href='pages/student_Management/studentLogin.html'">
+          Sign In
+        </button>
 
-      <button
-        class="btn btn-secondary"
-        onclick="window.location.href='pages/student_Management/studentLogin.html'">
+        <button
+          class="btn btn-primary"
+          onclick="window.location.href='pages/student_Management/register.html'">
+          Register
+        </button>
+      <?php else: ?>
+        <!-- Show Dashboard and Logout buttons when logged in -->
+        <button
+          class="btn btn-secondary"
+          onclick="window.location.href='pages/student_Management/studentDashboard.php'">
+          Dashboard
+        </button>
 
-        Sign In
-
-      </button>
-
-      <button
-        class="btn btn-primary"
-        onclick="window.location.href='pages/student_Management/register.html'">
-
-        Register
-
-      </button>
-
+        <button
+          class="btn btn-primary"
+          onclick="window.location.href='pages/student_Management/studentLogout.php'">
+          Logout
+        </button>
+      <?php endif; ?>
     </div>
 
     <!-- Mobile Hamburger -->
@@ -122,23 +141,33 @@
   </nav>
 
   <div class="header-actions">
+    <?php if (!$isStudentLoggedIn): ?>
+      <!-- Show Login and Register buttons when NOT logged in -->
+      <button
+        class="btn btn-secondary"
+        onclick="window.location.href='pages/student_Management/studentLogin.html'">
+        Sign In
+      </button>
 
-    <button
-      class="btn btn-secondary"
-      onclick="window.location.href='pages/student_Management/studentLogin.html'">
+      <button
+        class="btn btn-primary"
+        onclick="window.location.href='pages/student_Management/register.html'">
+        Register
+      </button>
+    <?php else: ?>
+      <!-- Show Dashboard and Logout buttons when logged in -->
+      <button
+        class="btn btn-secondary"
+        onclick="window.location.href='pages/student_Management/studentDashboard.php'">
+        Dashboard
+      </button>
 
-      Sign In
-
-    </button>
-
-    <button
-      class="btn btn-primary"
-      onclick="window.location.href='pages/student_Management/register.html'">
-
-      Register
-
-    </button>
-
+      <button
+        class="btn btn-primary"
+        onclick="window.location.href='pages/student_Management/studentLogout.php'">
+        Logout
+      </button>
+    <?php endif; ?>
   </div>
 
 </div>
