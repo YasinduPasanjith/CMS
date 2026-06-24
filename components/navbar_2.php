@@ -20,7 +20,7 @@ $isStudentLoggedIn = isset($_SESSION['student_id']) && !empty($_SESSION['student
 
     <!-- Desktop Nav -->
     <nav>
-      <ul class="nav-menu">
+      <!-- <ul class="nav-menu">
         <li>
           <a href="javascript:void(0)"
              onclick="scrollToSection('hero')"
@@ -52,7 +52,7 @@ $isStudentLoggedIn = isset($_SESSION['student_id']) && !empty($_SESSION['student
              FAQs
           </a>
         </li>
-      </ul>
+      </ul> -->
     </nav>
 
     <!-- Buttons -->
