@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../db.php';
 
 $result = $conn->query("SELECT * FROM admins ORDER BY admin_id DESC");
@@ -79,6 +80,31 @@ $result = $conn->query("SELECT * FROM admins ORDER BY admin_id DESC");
       color: var(--accent);
       border: 1px solid rgba(255, 184, 0, 0.3);
     }
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .btn-delete {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      background: rgba(220, 53, 69, 0.15);
+      color: #dc3545;
+      border: 1px solid rgba(220, 53, 69, 0.3);
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .btn-delete:hover {
+      background: rgba(220, 53, 69, 0.25);
+      border-color: rgba(220, 53, 69, 0.5);
+      transform: translateY(-2px);
+    }
   </style>
 </head>
 <body>
@@ -92,6 +118,17 @@ $result = $conn->query("SELECT * FROM admins ORDER BY admin_id DESC");
       <i class="ti ti-arrow-left"></i> Back to Dashboard
     </a>
 
+    <?php
+    if (isset($_SESSION['success_message'])) {
+        echo '<div style="background: rgba(40, 167, 69, 0.15); border: 1px solid rgba(40, 167, 69, 0.4); color: #28a745; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem;">' . htmlspecialchars($_SESSION['success_message']) . '</div>';
+        unset($_SESSION['success_message']);
+    }
+    if (isset($_SESSION['error_message'])) {
+        echo '<div style="background: rgba(220, 53, 69, 0.15); border: 1px solid rgba(220, 53, 69, 0.4); color: #dc3545; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem;">' . htmlspecialchars($_SESSION['error_message']) . '</div>';
+        unset($_SESSION['error_message']);
+    }
+    ?>
+
     <h2 style="margin-top: 0; text-align: left; margin-bottom: 10px; font-family: var(--font-display); font-size: 2.25rem;">Admin List</h2>
     <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 30px;">Overview of administrative officers registered to process student grievances.</p>
 
@@ -103,6 +140,7 @@ $result = $conn->query("SELECT * FROM admins ORDER BY admin_id DESC");
           <th>Email Address</th>
           <th>Username</th>
           <th>Role</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -116,13 +154,20 @@ $result = $conn->query("SELECT * FROM admins ORDER BY admin_id DESC");
           <td><?php echo $row['email']; ?></td>
           <td><code><?php echo $row['username']; ?></code></td>
           <td><span class="role-badge"><?php echo htmlspecialchars($row['role'] ?? 'Coordinator'); ?></span></td>
+          <td>
+            <div class="action-buttons">
+              <a href="delete_admin.php?id=<?php echo $row['admin_id']; ?>" class="btn-delete" onclick="return confirm('Are you sure you want to delete this admin?');">
+                <i class="ti ti-trash"></i> Delete
+              </a>
+            </div>
+          </td>
         </tr>
         <?php 
           } 
         } else {
         ?>
         <tr>
-          <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 30px;">No administrators found.</td>
+          <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 30px;">No administrators found.</td>
         </tr>
         <?php } ?>
       </tbody>
