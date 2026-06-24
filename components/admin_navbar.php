@@ -74,13 +74,13 @@ $isStudentLoggedIn = isset($_SESSION['student_id']) && !empty($_SESSION['student
         <!-- Show Dashboard and Logout buttons when logged in -->
         <button
           class="btn btn-secondary"
-          onclick="window.location.href='pages/student_Management/studentDashboard.php'">
+          onclick="window.location.href='../../pages/student_Management/studentDashboard.php'">
           Dashboard
         </button>
 
         <button
           class="btn btn-primary"
-          onclick="window.location.href='pages/student_Management/studentLogout.php'">
+          onclick="window.location.href='../../pages/student_Management/studentLogout.php'">
           Logout
         </button>
       <?php endif; ?>

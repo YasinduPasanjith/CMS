@@ -227,6 +227,7 @@ $conn->close();
 </head>
 <body>
 
+  <?php include '../../components/navbar_2.php'; ?>
   <div class="dashboard-card">
     <div class="dashboard-header">
       <div>

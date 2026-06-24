@@ -122,7 +122,7 @@ if ($stmt) {
         </div>
       </div>
       <div class="header-actions">
-        <button class="btn btn-secondary btn-header" onclick="window.location.href='index.html'">
+        <button class="btn btn-secondary btn-header" onclick="window.location.href='adminRegister.html'">
           <i class="ti ti-user-plus"></i> Add Coordinator
         </button>
         <button class="btn btn-secondary btn-header" onclick="window.location.href='view_admins.php'">
