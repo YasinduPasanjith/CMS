@@ -83,6 +83,9 @@ if ($complaints && $complaints->num_rows > 0) {
         if (strtolower($r['status'] ?? '') === 'pending')  $pending_count++;
     }
 }
+
+$flash     = $_GET['msg'] ?? '';
+$flashType = $_GET['type'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -758,6 +761,13 @@ if ($complaints && $complaints->num_rows > 0) {
       </a>
     </header>
 
+    <?php if ($flash !== ''): ?>
+      <div class="flash flash-<?php echo $flashType === 'success' ? 'success' : 'error'; ?>" style="margin: 0 auto 24px; max-width: 1100px; width: calc(100% - 40px); display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-radius: 18px;">
+        <i class="ti <?php echo $flashType === 'success' ? 'ti-circle-check' : 'ti-alert-circle'; ?>" style="font-size:1.2rem;"></i>
+        <span><?php echo htmlspecialchars($flash); ?></span>
+      </div>
+    <?php endif; ?>
+
     <!-- ── Summary Cards ── -->
     <div class="summary-grid">
       <div class="summary-card">
@@ -880,6 +890,11 @@ if ($complaints && $complaints->num_rows > 0) {
                 <i class="ti <?php echo $status_icon; ?>"></i>
                 <?php echo htmlspecialchars($status); ?>
               </span>
+              <?php if ($status === 'Pending'): ?>
+                <a href="update_complaint.php?id=<?php echo $row['com_id']; ?>" class="btn-filter" style="text-decoration:none; padding:7px 14px; border-radius:10px; background:rgba(59,130,246,0.12); border:1px solid rgba(59,130,246,0.25); color:#93c5fd; font-size:0.8rem; font-weight:600; display:inline-flex; align-items:center; gap:6px;">
+                  <i class="ti ti-edit"></i> Edit
+                </a>
+              <?php endif; ?>
               <button
                 class="btn-delete"
                 id="del-btn-<?php echo $row['com_id']; ?>"
