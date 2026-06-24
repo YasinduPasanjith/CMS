@@ -585,6 +585,151 @@ if ($complaints && $complaints->num_rows > 0) {
       box-shadow: 0 8px 24px var(--primary-glow);
     }
 
+    /* ── Delete Button ── */
+    .btn-delete {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: rgba(239,68,68,0.08);
+      border: 1px solid rgba(239,68,68,0.2);
+      color: #f87171;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+
+    .btn-delete:hover {
+      background: rgba(239,68,68,0.18);
+      border-color: rgba(239,68,68,0.45);
+      color: #fca5a5;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(239,68,68,0.2);
+    }
+
+    .btn-delete:active {
+      transform: translateY(0);
+    }
+
+    /* ── Confirm Modal ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(6px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-box {
+      background: rgba(18,8,28,0.92);
+      border: 1px solid rgba(239,68,68,0.25);
+      border-radius: 22px;
+      padding: 36px 32px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+      transform: scale(0.92) translateY(20px);
+      transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), opacity 0.25s ease;
+      opacity: 0;
+    }
+
+    .modal-overlay.active .modal-box {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+
+    .modal-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(239,68,68,0.12);
+      border: 1px solid rgba(239,68,68,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.7rem;
+      color: #f87171;
+      margin: 0 auto 20px;
+    }
+
+    .modal-box h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--text-bright);
+      margin: 0 0 10px;
+    }
+
+    .modal-box p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin: 0 0 26px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .modal-btn-cancel {
+      padding: 10px 22px;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .modal-btn-cancel:hover {
+      border-color: var(--border-color-hover);
+      color: var(--text-main);
+    }
+
+    .modal-btn-confirm {
+      padding: 10px 22px;
+      background: linear-gradient(135deg, #dc2626, #ef4444);
+      border: none;
+      color: #fff;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .modal-btn-confirm:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(239,68,68,0.35);
+    }
+
+    .modal-btn-confirm:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     /* Responsive */
     @media (max-width: 700px) {
       .summary-grid { grid-template-columns: 1fr; }
@@ -730,10 +875,22 @@ if ($complaints && $complaints->num_rows > 0) {
                 </div>
               </div>
             </div>
-            <span class="status-badge <?php echo $status_class; ?>">
-              <i class="ti <?php echo $status_icon; ?>"></i>
-              <?php echo htmlspecialchars($status); ?>
-            </span>
+            <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+              <span class="status-badge <?php echo $status_class; ?>">
+                <i class="ti <?php echo $status_icon; ?>"></i>
+                <?php echo htmlspecialchars($status); ?>
+              </span>
+              <button
+                class="btn-delete"
+                id="del-btn-<?php echo $row['com_id']; ?>"
+                data-id="<?php echo $row['com_id']; ?>"
+                data-subject="<?php echo htmlspecialchars($row['complaint_subject'] ?? 'this complaint', ENT_QUOTES); ?>"
+                onclick="openDeleteModal(this)"
+                title="Delete complaint"
+              >
+                <i class="ti ti-trash"></i> Delete
+              </button>
+            </div>
           </div>
 
           <!-- Description -->
@@ -783,6 +940,21 @@ if ($complaints && $complaints->num_rows > 0) {
 
   </div><!-- /.page-wrapper -->
 
+  <!-- ── Delete Confirm Modal ── -->
+  <div class="modal-overlay" id="deleteModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+      <div class="modal-icon"><i class="ti ti-alert-triangle"></i></div>
+      <h3 id="modalTitle">Delete Complaint?</h3>
+      <p id="modalDesc">This action is permanent and cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="modal-btn-cancel" id="modalCancelBtn" onclick="closeDeleteModal()">Cancel</button>
+        <button class="modal-btn-confirm" id="modalConfirmBtn" onclick="confirmDelete()">
+          <i class="ti ti-trash"></i> Yes, Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // Auto-submit on select change
     document.getElementById('categorySelect').addEventListener('change', function () {
@@ -813,6 +985,93 @@ if ($complaints && $complaints->num_rows > 0) {
         card.style.transform = 'translateY(0)';
       }, 40 + i * 60);
     });
+
+    // ── Delete Modal ──
+    let pendingDeleteId = null;
+
+    function openDeleteModal(btn) {
+      pendingDeleteId = btn.dataset.id;
+      const subject = btn.dataset.subject || 'this complaint';
+      document.getElementById('modalDesc').textContent =
+        'Are you sure you want to delete "' + subject + '"? This action is permanent and cannot be undone.';
+      document.getElementById('deleteModal').classList.add('active');
+      document.getElementById('modalConfirmBtn').disabled = false;
+      document.getElementById('modalConfirmBtn').innerHTML = '<i class="ti ti-trash"></i> Yes, Delete';
+    }
+
+    function closeDeleteModal() {
+      document.getElementById('deleteModal').classList.remove('active');
+      pendingDeleteId = null;
+    }
+
+    // Close on backdrop click
+    document.getElementById('deleteModal').addEventListener('click', function (e) {
+      if (e.target === this) closeDeleteModal();
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeDeleteModal();
+    });
+
+    function confirmDelete() {
+      if (!pendingDeleteId) return;
+
+      const confirmBtn = document.getElementById('modalConfirmBtn');
+      confirmBtn.disabled = true;
+      confirmBtn.innerHTML = '<i class="ti ti-loader ti-spin"></i> Deleting...';
+
+      const formData = new FormData();
+      formData.append('com_id', pendingDeleteId);
+
+      fetch('delete_complaint.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          // Find and animate-out the card
+          const btn = document.getElementById('del-btn-' + pendingDeleteId);
+          if (btn) {
+            const card = btn.closest('.complaint-card');
+            if (card) {
+              card.style.transition = 'opacity 0.35s ease, transform 0.35s ease, max-height 0.4s ease, margin 0.4s ease, padding 0.4s ease';
+              card.style.opacity = '0';
+              card.style.transform = 'translateX(-20px)';
+              card.style.maxHeight = card.offsetHeight + 'px';
+              setTimeout(() => {
+                card.style.maxHeight = '0';
+                card.style.marginTop = '0';
+                card.style.marginBottom = '0';
+                card.style.overflow = 'hidden';
+              }, 320);
+              setTimeout(() => {
+                card.remove();
+                // Show empty state if no cards left
+                if (document.querySelectorAll('.complaint-card').length === 0) {
+                  document.getElementById('complaintsList').innerHTML =
+                    '<div class="empty-state"><div class="empty-icon"><i class="ti ti-clipboard-x"></i></div>' +
+                    '<h3>No Complaints Found</h3>' +
+                    '<p>You haven\'t submitted any complaints yet.</p>' +
+                    '<a href="add_complaint.php" class="btn-submit-new"><i class="ti ti-plus"></i> Submit a Complaint</a></div>';
+                }
+              }, 700);
+            }
+          }
+          closeDeleteModal();
+        } else {
+          confirmBtn.disabled = false;
+          confirmBtn.innerHTML = '<i class="ti ti-trash"></i> Yes, Delete';
+          alert('Error: ' + (data.message || 'Could not delete complaint.'));
+        }
+      })
+      .catch(() => {
+        confirmBtn.disabled = false;
+        confirmBtn.innerHTML = '<i class="ti ti-trash"></i> Yes, Delete';
+        alert('Network error. Please try again.');
+      });
+    }
   </script>
 
 </body>
