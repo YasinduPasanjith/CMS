@@ -238,8 +238,21 @@ $conn->close();
       </a>
     </div>
 
-    <div class="section-title">Your Student Profile</div>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <div class="section-title">Your Student Profile</div>
+      <a href="update_student_details.php" style="display: inline-flex; align-items: center; gap: 8px; color: var(--accent); border: 1px solid var(--border-color); padding: 10px 16px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: var(--transition);" onmouseover="this.style.background='rgba(255, 255, 255, 0.05)'; this.style.borderColor='var(--accent)';" onmouseout="this.style.background=''; this.style.borderColor='var(--border-color)';">
+        <i class="ti ti-edit"></i> Edit Profile
+      </a>
+    </div>
     <div class="profile-grid">
+      <div class="profile-item">
+        <h3>Full Name</h3>
+        <p><?php echo $studentName; ?></p>
+      </div>
+      <div class="profile-item">
+        <h3>Email Address</h3>
+        <p><?php echo $studentEmail; ?></p>
+      </div>
       <div class="profile-item">
         <h3>Registration Number</h3>
         <p><?php echo $studentRegNo; ?></p>
