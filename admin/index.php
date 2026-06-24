@@ -48,7 +48,7 @@
     </form>
 
     <p class="signin-prompt">
-      Need system coordination access? <a href="index.html" class="accent-link">Request Account</a>
+      If already have an account? <a href="adminRegister.html" class="accent-link">Request Account</a>
     </p>
   </div>
 
