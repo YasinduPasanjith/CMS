@@ -17,6 +17,7 @@ $student_id = $_SESSION['student_id'];
 $subject = trim($_POST['complaint_subject'] ?? '');
 $category = trim($_POST['category'] ?? '');
 $description = trim($_POST['complaint_description'] ?? '');
+$current_date = date('Y-m-d H:i:s'); // System date and time
 
 if ($subject === '' || $category === '' || $description === '') {
     echo "<script>alert('All fields are required.'); window.history.back();</script>";
@@ -41,9 +42,9 @@ try {
         throw new Exception('Unable to compute complaint id');
     }
 
-    $stmt = $conn->prepare('INSERT INTO complaints (com_id, std_id, complaint_subject, complaint_description, category) VALUES (?, ?, ?, ?, ?)');
+    $stmt = $conn->prepare('INSERT INTO complaints (com_id, std_id, complaint_subject, complaint_description, category, date) VALUES (?, ?, ?, ?, ?, ?)');
     if (!$stmt) throw new Exception('Prepare failed: ' . $conn->error);
-    $stmt->bind_param('iisss', $next_com_id, $student_id, $subject, $description, $category);
+    $stmt->bind_param('iissss', $next_com_id, $student_id, $subject, $description, $category, $current_date);
     if (!$stmt->execute()) throw new Exception('Execute failed: ' . $stmt->error);
     $stmt->close();
 
