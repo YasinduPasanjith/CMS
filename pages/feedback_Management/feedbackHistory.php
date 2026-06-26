@@ -601,7 +601,13 @@ $flashType = $_GET['type'] ?? '';
               </div>
             </div>
           </div>
-
+          <div style="padding:0 26px 20px; text-align:right;">
+            <a href="deleteFeedback.php?id=<?php echo $row['feedback_id']; ?>"
+            class="btn-delete"
+            onclick="return confirm('Are you sure you want to delete this feedback?');">
+                <i class="ti ti-trash"></i> Delete Feedback
+            </a>
+          </div>  
           <!-- Complaint description -->
           <div class="card-body">
             <p class="desc-text"><?php echo htmlspecialchars($row['complaint_description'] ?? 'No description provided.'); ?></p>
