@@ -1,3 +1,13 @@
+<?php
+session_start();
+include '../../db.php';
+
+// Ensure student is logged in
+if (isset($_SESSION['student_id'])) {
+    header('Location: pages/student_Management/studentDashboard.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
