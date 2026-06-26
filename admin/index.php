@@ -1,3 +1,12 @@
+<?php
+session_start();
+// Redirect to dashboard if already logged in
+if (isset($_SESSION['admin_id'])) {
+    header('Location: adminDashboard.php');
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,7 +42,7 @@
     <h2>Administrative Sign In</h2>
     <p class="subtitle">Access your coordinator dashboard to delegate and resolve tickets.</p>
 
-    <form action="adminLogin.php" method="POST" onsubmit="return validateLogin()">
+    <form action="adminLoginProcess.php" method="POST" onsubmit="return validateLogin()">
       <div class="input-group">
         <input type="text" name="username" id="username" placeholder="Username" required>
         <span class="input-icon"><i class="ti ti-user"></i></span>

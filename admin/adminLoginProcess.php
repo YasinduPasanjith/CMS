@@ -2,6 +2,12 @@
 session_start();
 include '../db.php';
 
+// Check if admin is already logged in
+if (isset($_SESSION['admin_id'])) {
+    header('Location: index.php');
+    exit;
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize input values
     $username = trim($_POST['username']);
