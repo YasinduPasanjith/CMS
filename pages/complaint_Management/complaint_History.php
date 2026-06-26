@@ -51,11 +51,14 @@ $sql = "SELECT
             cs.status,
             rc.msg            AS resolution_msg,
             rc.date           AS resolved_date,
-            a.full_name       AS admin_name
+            a.full_name       AS admin_name,
+            f.feedback_id,
+            f.msg            AS feedback_msg
         FROM complaints c
         LEFT JOIN complaint_status cs ON c.com_id = cs.com_id
         LEFT JOIN resolve_complaints rc ON c.com_id = rc.com_id
         LEFT JOIN admins a ON rc.admin_id = a.admin_id
+        LEFT JOIN feedback f ON c.com_id = f.com_id AND f.std_id = c.std_id
         WHERE {$where_sql}
         ORDER BY c.date DESC";
 
@@ -893,6 +896,11 @@ $flashType = $_GET['type'] ?? '';
               <?php if ($status === 'Pending'): ?>
                 <a href="update_complaint.php?id=<?php echo $row['com_id']; ?>" class="btn-filter" style="text-decoration:none; padding:7px 14px; border-radius:10px; background:rgba(59,130,246,0.12); border:1px solid rgba(59,130,246,0.25); color:#93c5fd; font-size:0.8rem; font-weight:600; display:inline-flex; align-items:center; gap:6px;">
                   <i class="ti ti-edit"></i> Edit
+                </a>
+              <?php endif; ?>
+              <?php if ($status === 'Resolved' && empty($row['feedback_id'])): ?>
+                <a href="feedback.php?com_id=<?php echo $row['com_id']; ?>" class="btn-filter" style="text-decoration:none; padding:7px 14px; border-radius:10px; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.25); color:#34d399; font-size:0.8rem; font-weight:600; display:inline-flex; align-items:center; gap:6px;">
+                  <i class="ti ti-message"></i> Give Feedback
                 </a>
               <?php endif; ?>
               <button
