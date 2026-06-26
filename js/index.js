@@ -135,8 +135,8 @@ function scrollToSection(id) {
  */
 function handleAction(action) {
   const routes = {
-    submit:  'pages/register.html',
-    track:   'pages/view_students.php',
+    submit:  'pages/student_Management/register.html',
+    track:   'pages/student_Management/view_students.php',
     admin:   'admin/index.php',
     reports: 'admin/view_admins.php',
   };
@@ -153,5 +153,5 @@ function viewComplaint(id) {
 
 /** Open the login / sign-in page. */
 function openLogin() {
-  window.location.href = 'pages/register.html';
+  window.location.href = 'pages/student_Management/studentLogin.html';
 }

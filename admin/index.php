@@ -1,17 +1,28 @@
+<?php
+session_start();
+// Redirect to dashboard if already logged in
+if (isset($_SESSION['admin_id'])) {
+    header('Location: adminDashboard.php');
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Secure administrative login portal for UOC Voice.">
   <title>Admin Sign In — UOC CMS</title>
-  
+
   <!-- Tabler Icons CDN -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
-  
+
   <!-- Shared Style Sheets -->
-  <link rel="stylesheet" href="../css/adminRegister.css">
+  <link rel="stylesheet" href="../css/adminLogin.css">
 </head>
+
 <body>
 
   <!-- Decorative blur blobs in the background -->
@@ -22,7 +33,7 @@
     <a href="../index.php" class="back-home">
       <i class="ti ti-arrow-left"></i> Back to Homepage
     </a>
-    
+
     <div class="logo-header">
       <div class="logo-icon">U</div>
       <span class="logo-text">UOC <span class="logo-sub">Voice</span></span>
@@ -31,7 +42,7 @@
     <h2>Administrative Sign In</h2>
     <p class="subtitle">Access your coordinator dashboard to delegate and resolve tickets.</p>
 
-    <form action="adminLogin.php" method="POST" onsubmit="return validateLogin()">
+    <form action="adminLoginProcess.php" method="POST" onsubmit="return validateLogin()">
       <div class="input-group">
         <input type="text" name="username" id="username" placeholder="Username" required>
         <span class="input-icon"><i class="ti ti-user"></i></span>
@@ -44,9 +55,9 @@
 
       <button type="submit">Sign In</button>
     </form>
-    
+
     <p class="signin-prompt">
-      Need system coordination access? <a href="index.html" class="accent-link">Request Account</a>
+      If already have an account? <a href="adminRegister.html" class="accent-link">Request Account</a>
     </p>
   </div>
 
@@ -63,4 +74,5 @@
     }
   </script>
 </body>
+
 </html>

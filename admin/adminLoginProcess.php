@@ -2,6 +2,12 @@
 session_start();
 include '../db.php';
 
+// Check if admin is already logged in
+if (isset($_SESSION['admin_id'])) {
+    header('Location: index.php');
+    exit;
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize input values
     $username = trim($_POST['username']);
@@ -34,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 echo "<script>
                         alert('Login Successful! Welcome, " . addslashes($admin['full_name']) . ".');
-                        window.location='view_admins.php';
+                        window.location='adminDashboard.php';
                       </script>";
                 exit;
             } else {

@@ -1,0 +1,281 @@
+/* ============================================================
+   UOC Online Complaint Management System — adminRegister.css
+   ============================================================ */
+
+@import url('index.css');
+
+/* Center the content on the viewport for login and registration */
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    background-color: var(--bg-dark);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Background blob animations */
+.blur-blob {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: -1;
+    opacity: 0.15;
+    pointer-events: none;
+    animation: floatBlob 12s ease-in-out infinite alternate;
+}
+
+.blob-1 {
+    background: var(--primary);
+    top: 15%;
+    left: 10%;
+    animation-duration: 16s;
+}
+
+.blob-2 {
+    background: var(--accent);
+    bottom: 15%;
+    right: 10%;
+    animation-duration: 20s;
+}
+
+@keyframes floatBlob {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(30px, -40px) scale(1.15);
+    }
+
+    100% {
+        transform: translate(-20px, 20px) scale(0.9);
+    }
+}
+
+/* Glassmorphic card container for admin views */
+.admin-card {
+    background: rgba(18, 9, 31, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 40px;
+    max-width: 480px;
+    width: 100%;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Card gradient top border line */
+.admin-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+    border-radius: 24px 24px 0 0;
+}
+
+/* Back Link styling with slide hover animation */
+.back-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.back-home i {
+    font-size: 1.1rem;
+    transition: var(--transition);
+}
+
+.back-home:hover {
+    color: var(--accent);
+}
+
+.back-home:hover i {
+    transform: translateX(-4px);
+}
+
+/* Header logo and subtitle styling */
+.logo-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.logo-header .logo-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 150%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-bright);
+    font-weight: 800;
+    font-family: var(--font-display);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.logo-header .logo-text {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
+    color: var(--text-bright);
+}
+
+.logo-header .logo-sub {
+    color: var(--accent);
+    font-weight: 800;
+}
+
+h2 {
+    font-family: var(--font-display);
+    color: var(--text-bright);
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+p.subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+/* Form inputs styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Input group styling with integrated icons */
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 16px;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    pointer-events: none;
+    transition: var(--transition);
+    z-index: 2;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 16px 14px 46px;
+    /* Extra left padding to clear the icon */
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    outline: none;
+    transition: var(--transition);
+}
+
+.input-group input:hover {
+    border-color: var(--border-color-hover);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Input focus effect: icon and border color change + shadow glow */
+.input-group input:focus {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 4px var(--primary-glow);
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.input-group input:focus~.input-icon,
+.input-group:focus-within .input-icon {
+    color: var(--accent);
+}
+
+/* Autofill styling override */
+.input-group input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px var(--bg-dark-secondary) inset !important;
+    -webkit-text-fill-color: var(--text-main) !important;
+}
+
+/* Primary submit button */
+button[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: var(--text-bright);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px var(--primary-glow);
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 0, 151, 0.45);
+    background: linear-gradient(135deg, var(--primary-light) 0%, #a43be3 100%);
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(102, 0, 151, 0.3);
+}
+
+/* Bottom prompts and links */
+.signin-prompt {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 24px;
+}
+
+.accent-link {
+    color: var(--accent);
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.accent-link:hover {
+    color: var(--text-bright);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .admin-card {
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+}
