@@ -578,6 +578,11 @@ if ($stmt) {
       bottom: 10%;
       right: 5%;
     }
+
+    select option {
+      background: var(--bg-dark);
+      color: var(--text-main);
+    }
   </style>
 </head>
 <body>

@@ -119,7 +119,6 @@ $conn->close();
     <title>Update Student Details — UOC CMS</title>
 
     <!-- Tabler Icons CDN -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link rel="stylesheet" href="../../css/index.css">
     <style>
         body {
@@ -306,6 +305,21 @@ $conn->close();
             border-radius: 4px;
         }
 
+        #faculty{
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            transition: var(--transition);
+            font-family: inherit;
+
+            option {
+                background: var(--bg-dark);
+                color: var(--text-main);
+            }
+        }
+
         @media (max-width: 640px) {
             .update-card {
                 padding: 24px;
@@ -366,7 +380,6 @@ $conn->close();
                         <label for="faculty">Faculty / Institute</label>
                         <select id="faculty" name="faculty" required>
                             <option value="">-- Select Faculty --</option>
-                            <option value="Faculty of Engineering" <?php echo ($student['faculty'] === 'Faculty of Engineering') ? 'selected' : ''; ?>>Faculty of Engineering</option>
                             <option value="Faculty of Science" <?php echo ($student['faculty'] === 'Faculty of Science') ? 'selected' : ''; ?>>Faculty of Science</option>
                             <option value="Faculty of Arts" <?php echo ($student['faculty'] === 'Faculty of Arts') ? 'selected' : ''; ?>>Faculty of Arts</option>
                             <option value="Faculty of Business" <?php echo ($student['faculty'] === 'Faculty of Business') ? 'selected' : ''; ?>>Faculty of Business</option>

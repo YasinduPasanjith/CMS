@@ -115,6 +115,11 @@ $flashType = $_GET['type'] ?? '';
       position: relative;
     }
 
+    select option {
+      background: var(--bg-dark);
+      color: var(--text-main);
+    }
+
     .blur-blob {
       position: absolute;
       border-radius: 50%;

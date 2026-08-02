@@ -101,6 +101,12 @@ if ($stmt) {
   <!-- Shared Style Sheets -->
   <link rel="stylesheet" href="../css/index.css">
   <link rel="stylesheet" href="../css/adminDashboard.css">
+  <style>
+    select option {
+      background: var(--bg-dark);
+      color: var(--text-main);
+    }
+  </style>
 </head>
 <body>
 

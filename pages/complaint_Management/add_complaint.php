@@ -21,6 +21,22 @@ if (!isset($_SESSION['student_id'])) {
     <!-- Core & Page Stylesheets -->
     <link rel="stylesheet" href="../../css/index.css">
     <link rel="stylesheet" href="../../css/add_complaint.css">
+
+    <style>
+        #category {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            font-family: inherit;
+
+            option {
+                background: var(--bg-dark);
+                color: var(--text-main);
+            }
+        }
+    </style>
 </head>
 <body>
 
