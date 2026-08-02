@@ -98,7 +98,7 @@ if (isset($_SESSION['student_id'])) {
         <p class="section-subtitle">Select your entry point to manage issues, monitor statistics, or perform administrative tasks.</p>
       </div>
 
-      <div class="actions-grid">
+      <div style="display: flex; flex-direction: row; gap: 20px; justify-content: center;">
         <!-- Card 1 -->
         <div class="action-card" onclick="handleAction('submit')">
           <div class="action-icon">
@@ -120,24 +120,24 @@ if (isset($_SESSION['student_id'])) {
         </div>
 
         <!-- Card 3 -->
-        <div class="action-card" onclick="handleAction('reports')">
+        <!-- <div class="action-card" onclick="handleAction('reports')">
           <div class="action-icon">
             <i class="ti ti-report"></i>
           </div>
           <h3 class="action-title">View Reports</h3>
           <p class="action-desc">Read system transparency summaries, student rosters, and feedback trends published for UOC welfare auditing.</p>
           <span class="action-link">Open Reports <i class="ti ti-arrow-right"></i></span>
-        </div>
+        </div> -->
 
         <!-- Card 4 -->
-        <div class="action-card" onclick="handleAction('admin')">
+        <!-- <div class="action-card" onclick="handleAction('admin')">
           <div class="action-icon">
             <i class="ti ti-lock"></i>
           </div>
           <h3 class="action-title">Administration</h3>
           <p class="action-desc">Dedicated dashboard access for administrative officers to delegate, monitor, and update complaint tickets.</p>
           <span class="action-link">Admin Access <i class="ti ti-arrow-right"></i></span>
-        </div>
+        </div> -->
       </div>
     </div>
   </section>
