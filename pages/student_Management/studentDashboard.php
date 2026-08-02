@@ -234,9 +234,9 @@ $conn->close();
         <h1>Welcome back, <?php echo $studentName; ?></h1>
         <p style="color: var(--text-muted); margin-top: 10px;">You are signed in with <?php echo $studentEmail; ?>.</p>
       </div>
-      <a href="studentLogout.php" class="logout-link">
+      <!-- <a href="studentLogout.php" class="logout-link">
         <i class="ti ti-logout"></i> Logout
-      </a>
+      </a> -->
     </div>
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
