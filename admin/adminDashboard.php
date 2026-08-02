@@ -131,6 +131,9 @@ if ($stmt) {
         <button class="btn btn-secondary btn-header" onclick="window.location.href='../pages/resolve_Complaint_Management/resolveComplaintHistory.php'">
           <i class="ti ti-history"></i> Resolution History
         </button>
+        <button class="btn btn-secondary btn-header" onclick="window.location.href='../pages/student_Management/view_students.php'">
+          <i class="ti ti-arrow-back-up"></i> Student List
+        </button>
         <button class="btn btn-primary btn-header" onclick="window.location.href='adminLogout.php'">
           <i class="ti ti-logout"></i> Logout
         </button>

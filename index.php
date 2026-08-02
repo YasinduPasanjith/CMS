@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../../db.php';
+include '../CMS/db.php';
 
 // Ensure student is logged in
 if (isset($_SESSION['student_id'])) {
@@ -61,9 +61,9 @@ if (isset($_SESSION['student_id'])) {
         <button class="btn btn-accent" onclick="handleAction('submit')">
           <i class="ti ti-plus"></i> Submit a Complaint
         </button>
-        <button class="btn btn-secondary" onclick="handleAction('track')">
+        <!-- <button class="btn btn-secondary" onclick="handleAction('track')">
           <i class="ti ti-eye"></i> Track Progress
-        </button>
+        </button> -->
       </div>
 
       <!-- ── 3. STATS BAR ── -->

@@ -306,11 +306,11 @@ $conn->close();
         <p>View feedback you have submitted for resolved complaints and track their impact.</p>
         <a href="../feedback_Management/feedbackHistory.php">View Feedback &rarr;</a>
       </div>
-      <div class="action-card">
+      <!-- <div class="action-card">
         <h3>Track Complaint Status</h3>
         <p>Follow the real-time progress of your active issues through the UOC portal.</p>
         <a href="../../index.php">Track Status &rarr;</a>
-      </div>
+      </div> -->
     </div>
   </div>
 
