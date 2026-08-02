@@ -20,8 +20,6 @@ $result = $conn->query($sql);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student List — UOC CMS</title>
   
-  <!-- Tabler Icons CDN -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   
   <!-- Shared Style Sheets -->
   <link rel="stylesheet" href="../../css/index.css">
@@ -88,6 +86,24 @@ $result = $conn->query($sql);
       color: #c982ff;
       border: 1px solid rgba(102, 0, 151, 0.3);
     }
+    .delete-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #ff6b6b;
+      background: rgba(255, 59, 48, 0.1);
+      border: 1px solid rgba(255, 59, 48, 0.3);
+      transition: var(--transition);
+    }
+    .delete-btn:hover {
+      background: rgba(255, 59, 48, 0.25);
+      color: #ff8f8f;
+      border-color: rgba(255, 59, 48, 0.6);
+    }
   </style>
 </head>
 <body>
@@ -97,7 +113,7 @@ $result = $conn->query($sql);
   <div class="blur-blob blob-2" style="bottom: 10%; right: 15%;"></div>
 
   <div class="roster-card">
-    <a href="../index.php" class="back-home">
+    <a href="../../admin/" class="back-home">
       <i class="ti ti-arrow-left"></i> Back to Homepage
     </a>
 
@@ -113,6 +129,7 @@ $result = $conn->query($sql);
           <th>Registration No</th>
           <th>Faculty</th>
           <th>Registered Date</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -127,13 +144,20 @@ $result = $conn->query($sql);
           <td><code><?php echo $row['reg_no']; ?></code></td>
           <td><span class="faculty-badge"><?php echo htmlspecialchars($row['faculty']); ?></span></td>
           <td style="font-size: 0.85rem; color: var(--text-muted);"><?php echo $row['created_at']; ?></td>
+          <td>
+            <a href="delete_student.php?id=<?php echo $row['student_id']; ?>"
+               class="delete-btn"
+               onclick="return confirm('Are you sure you want to delete <?php echo addslashes($row['full_name']); ?>? This action cannot be undone.');">
+              <i class="ti ti-trash"></i> Delete
+            </a>
+          </td>
         </tr>
         <?php 
           } 
         } else {
         ?>
         <tr>
-          <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 30px;">No registered students found.</td>
+          <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">No registered students found.</td>
         </tr>
         <?php } ?>
       </tbody>
