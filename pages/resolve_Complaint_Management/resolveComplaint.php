@@ -4,7 +4,7 @@ include '../../db.php';
 
 // Check if admin is authenticated
 if (empty($_SESSION['admin_id'])) {
-    echo "<script>alert('Unauthorized access. Please log in as an administrator.'); window.location='../../admin/adminLogin.html';</script>";
+    echo "<script>alert('Unauthorized access. Please log in as an administrator.'); window.location='../../admin/';</script>";
     exit;
 }
 

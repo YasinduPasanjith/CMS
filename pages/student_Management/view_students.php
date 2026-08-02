@@ -1,6 +1,14 @@
 <?php
+session_start();
 include '../../db.php';
 
+// Ensure administrator is logged in
+if (empty($_SESSION['admin_id'])) {
+    header('Location: ../../admin');
+    exit;
+}
+
+// ── Fetch all students ──
 $sql = "SELECT * FROM students ORDER BY student_id DESC";
 $result = $conn->query($sql);
 ?>

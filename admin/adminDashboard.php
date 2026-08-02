@@ -4,7 +4,7 @@ include '../db.php';
 
 // Ensure administrator is logged in
 if (empty($_SESSION['admin_id'])) {
-    header('Location: adminLogin.html');
+    header('Location: index.php');
     exit;
 }
 

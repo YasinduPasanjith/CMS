@@ -4,7 +4,7 @@ include '../../db.php';
 
 // Redirect to login if student session doesn't exist
 if (empty($_SESSION['student_id'])) {
-    header('Location: studentLogin.html');
+    header('Location: ../../pages/student_Management/studentLogin.html');
     exit;
 }
 
